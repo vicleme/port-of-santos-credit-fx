@@ -2,7 +2,7 @@
 
 **🇺🇸 [Read this in English](README.md)**
 
-Análise da relação entre variação cambial, crédito bancário e movimentação de carga no Porto de Santos (2015–2025), usando dados abertos do Banco Central do Brasil (BCB) e da estatística portuária. Projeto de ciência de dados — Fatec Baixada Santista.
+Análise da relação entre variação cambial, crédito bancário e movimentação de carga no Porto de Santos (2015–2025), usando dados abertos do Banco Central do Brasil (BCB) e da estatística portuária. Projeto de Ciência de Dados — Fatec Baixada Santista.
 
 
 ## Tema
@@ -35,7 +35,7 @@ docs/           -> rascunhos do relatório, atas de reunião do grupo
 ## Dados processados (`data/processed/`)
 
 - **`painel_2015_2025.csv`** — painel mensal principal, recorte fechado no escopo formal do projeto (2015–2025). 132 meses, 13 colunas. Usar este para a análise do PI2.
-- **`painel_completo.csv`** — mesmo painel, sem corte, incluindo os meses extras de 2026 já baixados de câmbio e Comex Stat (ESTBAN fica vazio nesses meses). Guardado como dado extra para eventual extensão futura (ex.: PI4).
+- **`painel_completo.csv`** — mesmo painel, sem corte, incluindo os meses extras de 2026 já baixados de câmbio e Comex Stat (ESTBAN fica vazio nesses meses). Guardado como dado extra para eventual extensão futura.
 
 ## Como reproduzir
 
