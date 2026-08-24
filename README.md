@@ -1,50 +1,52 @@
 # port-santos-credit-fx
 
+**🇧🇷 [Leia isto em Português](README.pt-br.md)**
+
 Analysis of the relationship between exchange rate volatility, bank credit, and cargo volume at the Port of Santos (2015–2025), using open data from Brazil's Central Bank (BCB) and port authority statistics. Data science project — Fatec Baixada Santista.
 
-## Tema
+## Topic
 
-Relação entre variação cambial, crédito bancário e movimentação de carga no Porto de Santos: uma análise de dados públicos do Banco Central e da Autoridade Portuária (2015–2025).
+Relationship between exchange rate variation, bank credit, and cargo movement at the Port of Santos: an analysis of public data from the Central Bank and the Port Authority (2015–2025).
 
-## Objetivo geral
+## General objective
 
-Investigar, por meio de dados públicos, se há relação estatística entre a variação da taxa de câmbio, o volume de crédito bancário direcionado a atividades de comércio exterior e logística no município de Santos, e a movimentação de carga no Porto de Santos, no período de 2015 a 2025.
+To investigate, using public data, whether there is a statistical relationship between exchange rate variation, the volume of bank credit directed to foreign trade and logistics activities in the municipality of Santos, and cargo movement at the Port of Santos, over the period 2015–2025.
 
-## Estrutura do repositório
+## Repository structure
 
 ```
 data/
-  raw/          -> dados brutos, como baixados das fontes originais
-  processed/    -> painel mensal já tratado e pronto para análise
-notebooks/      -> EDA e análises estatísticas
-src/            -> scripts reutilizáveis (ex.: merge_datasets.py)
-docs/           -> rascunhos do relatório, atas de reunião do grupo
+  raw/          -> raw data, as downloaded from the original sources
+  processed/    -> monthly panel already cleaned and ready for analysis
+notebooks/      -> EDA and statistical analysis
+src/            -> reusable scripts (e.g., merge_datasets.py)
+docs/           -> report drafts, group meeting notes
 ```
 
-## Fontes de dados
+## Data sources
 
-| Arquivo (`data/raw/`) | Fonte | Cobertura | Observações |
+| File (`data/raw/`) | Source | Coverage | Notes |
 |---|---|---|---|
-| `cambio_sgs_3696_2015-2026.csv` | BCB — SGS, série 3696 (Taxa de câmbio, Livre, Dólar americano, venda, fim de período, mensal) | 2015-01 a 2026-07 | `https://api.bcb.gov.br/dados/serie/bcdata.sgs.3696/dados` |
-| `estban_credito_santos_2015-2025.csv` | BCB — ESTBAN, via Base dos Dados (`basedosdados.br_bcb_estban.municipio`), município de Santos (IBGE 3548500) | 2015-01 a 2025-09 (plano gratuito) | Formato longo, um registro por (ano, mês, verbete). Verbetes usados: 160/161/162/171 (crédito) e 399/899 (totais ativo/passivo). Verbetes 153/457 (carteira de câmbio) testados e descartados — retornaram nulos/zerados, provável supressão por sigilo estatístico. |
-| `comexstat_porto_santos_2015-2026.csv` | Comex Stat — MDIC, módulo "Geral", filtro Via=Marítima + URF=0817800 (Porto de Santos) | 2015-01 a 2026-07 | Módulo "Geral" usado em vez de "Municípios" para captar o fluxo físico pela alfândega, não o domicílio fiscal do exportador/importador. |
+| `cambio_sgs_3696_2015-2026.csv` | BCB — SGS, series 3696 (Exchange rate, Free market, US Dollar, sell, end of period, monthly) | 2015-01 to 2026-07 | `https://api.bcb.gov.br/dados/serie/bcdata.sgs.3696/dados` |
+| `estban_credito_santos_2015-2025.csv` | BCB — ESTBAN, via Base dos Dados (`basedosdados.br_bcb_estban.municipio`), municipality of Santos (IBGE 3548500) | 2015-01 to 2025-09 (free tier) | Long format, one record per (year, month, account code). Account codes used: 160/161/162/171 (credit) and 399/899 (total assets/liabilities). Account codes 153/457 (foreign exchange portfolio) were tested and dropped — returned null/zero values, likely due to statistical confidentiality suppression. |
+| `comexstat_porto_santos_2015-2026.csv` | Comex Stat — MDIC, "General" module, filtered by Transport mode=Maritime + Customs unit=0817800 (Port of Santos) | 2015-01 to 2026-07 | The "General" module was used instead of "Municipalities" to capture the physical flow through customs, rather than the exporter/importer's tax domicile. |
 
-## Dados processados (`data/processed/`)
+## Processed data (`data/processed/`)
 
-- **`painel_2015_2025.csv`** — painel mensal principal, recorte fechado no escopo formal do projeto (2015–2025). 132 meses, 13 colunas. Usar este para a análise do PI2.
-- **`painel_completo.csv`** — mesmo painel, sem corte, incluindo os meses extras de 2026 já baixados de câmbio e Comex Stat (ESTBAN fica vazio nesses meses). Guardado como dado extra para eventual extensão futura (ex.: PI4).
+- **`painel_2015_2025.csv`** — main monthly panel, closed to the project's formal scope (2015–2025). 132 months, 13 columns. Use this one for the PI2 analysis.
+- **`painel_completo.csv`** — same panel, unclipped, including the extra 2026 months already downloaded for exchange rate and Comex Stat (ESTBAN is empty for those months). Kept as extra data for a possible future extension (e.g., a follow-up project).
 
-## Como reproduzir
+## How to reproduce
 
 ```bash
 cd src
 python merge_datasets.py
 ```
 
-Gera `painel_completo.csv` e `painel_2015_2025.csv` em `data/processed/` a partir dos arquivos brutos em `data/raw/`.
+Generates `painel_completo.csv` and `painel_2015_2025.csv` in `data/processed/` from the raw files in `data/raw/`.
 
-## Licença
+## License
 
 Code is licensed under MIT (see LICENSE). Written analysis and report content are licensed under CC BY 4.0.
 
-Os dados brutos em `data/raw/` continuam sujeitos aos termos de dados abertos das respectivas fontes originais (BCB, MDIC) — a licença deste repositório cobre o código e a análise produzidos pelo grupo, não os dados de origem.
+The raw data in `data/raw/` remains subject to the open data terms of the original sources (BCB, MDIC) — this repository's license covers the code and analysis produced by the group, not the source data.
