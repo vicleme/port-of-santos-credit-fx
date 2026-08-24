@@ -2,7 +2,7 @@
 
 **🇧🇷 [Leia isto em Português](README.pt-br.md)**
 
-Analysis of the relationship between exchange rate volatility, bank credit, and cargo volume at the Port of Santos (2015–2025), using open data from Brazil's Central Bank (BCB) and port authority statistics. Data science project — Fatec Baixada Santista.
+Analysis of the relationship between exchange rate volatility, bank credit, and cargo volume at the Port of Santos (2015–2025), using open data from Brazil's Central Bank (BCB) and port authority statistics. Data Science project — Fatec Baixada Santista.
 
 ## Topic
 
