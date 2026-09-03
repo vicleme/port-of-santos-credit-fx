@@ -1,0 +1,170 @@
+\documentclass[11pt,a4paper]{article}
+
+% ---------- Pacotes ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{seqsplit}
+
+% ---------- Cores ----------
+\definecolor{headergray}{RGB}{60,60,60}
+\definecolor{linkblue}{RGB}{0,90,160}
+
+% ---------- Hyperlinks ----------
+\hypersetup{
+    colorlinks=true,
+    linkcolor=linkblue,
+    urlcolor=linkblue,
+    citecolor=linkblue,
+    pdftitle={Dicionario de dados - painel 2015-2025},
+    pdfauthor={Diego Pacheco Hissnauer, Kauan Nunes Vieira Santos, Rafael Manfe Bisaio, Victor Gabriel Leme da Silva}
+}
+
+% ---------- Títulos de seção ----------
+\titleformat{\section}{\Large\bfseries\color{headergray}}{\thesection}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries\color{headergray}}{\thesubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.4em}{0.8em}
+\titlespacing*{\subsection}{0pt}{1.2em}{0.6em}
+
+% ---------- Cabeçalho / rodapé ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\small Projeto Integrador 2 --- Câmbio, crédito bancário e o Porto de Santos}
+\fancyhead[R]{\small \thepage}
+\fancyfoot[C]{\small Fatec Baixada Santista --- Ciência de Dados}
+
+% ---------- Colunas de tabela com quebra de linha ----------
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{\vspace{-1.5cm}\textbf{Dicionário de Dados}\\[0.3em]\Large \texttt{painel\_2015\_2025.csv}}
+\author{Diego Pacheco Hissnauer \and Kauan Nunes Vieira Santos \and Rafael Manfe Bisaio \and Victor Gabriel Leme da Silva}
+\date{Projeto Integrador 2 --- Fatec Baixada Santista}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\noindent Este documento explica o que cada coluna do painel representa, de onde vem e como interpretar seus valores. Painel mensal, uma linha por (ano, mês), 2015--2025.
+
+\vspace{0.5em}
+\hrule
+\vspace{1em}
+
+% =========================================================
+\section*{Identificação}
+\begin{longtable}{L{3.2cm} L{11cm}}
+\toprule
+\textbf{Coluna} & \textbf{O que é} \\
+\midrule
+\endhead
+\texttt{\seqsplit{ano}} & Ano de referência do mês (2015--2025). \\
+\texttt{\seqsplit{mes}} & Mês de referência (1 a 12). \\
+\bottomrule
+\end{longtable}
+
+% =========================================================
+\section*{Câmbio}
+\begin{longtable}{L{2.6cm} L{2.6cm} L{9cm}}
+\toprule
+\textbf{Coluna} & \textbf{Fonte} & \textbf{O que significa em linguagem simples} \\
+\midrule
+\endhead
+\texttt{\seqsplit{cambio\_venda}} & BCB SGS, série 3696 &
+Quantos reais custava 1 dólar americano, na taxa de \textbf{venda}, no último dia útil do mês (PTAX). É a referência que bancos e empresas usam para converter valores entre real e dólar. Quando esse número sobe, o real está ``mais fraco'' (desvalorizado) frente ao dólar --- importar fica mais caro, exportar fica mais vantajoso em reais. \\
+\bottomrule
+\end{longtable}
+
+% =========================================================
+\section*{Crédito bancário}
+\textit{Fonte: BCB ESTBAN, município de Santos.}
+
+\vspace{0.3em}
+\noindent O ESTBAN é o balanço mensal que cada agência bancária no Brasil é obrigada a enviar ao Banco Central. Os valores abaixo são a soma de todas as agências bancárias localizadas no município de Santos.
+
+\vspace{0.5em}
+\begin{longtable}{L{2.6cm} L{1.4cm} L{9.8cm}}
+\toprule
+\textbf{Coluna} & \textbf{Verbete} & \textbf{O que significa em linguagem simples} \\
+\midrule
+\endhead
+\texttt{\seqsplit{credito\_total}} & 160 &
+O total de todo o crédito (empréstimos e operações relacionadas) que os bancos com agência em Santos tinham concedido, somado, naquele mês. \textbf{Importante:} não é a soma das três colunas abaixo --- é um agregado maior e independente, que inclui outras operações de crédito não detalhadas separadamente no painel. \\[0.4em]
+\texttt{\seqsplit{credito\_emprestimos\_titulos}} & 161 &
+Uma parte específica do crédito total: empréstimos convencionais e títulos descontados (ex.: quando uma empresa antecipa o recebimento de uma duplicata/nota promissória junto ao banco). \\[0.4em]
+\texttt{\seqsplit{credito\_financiamentos}} & 162 &
+Outra parte do crédito total: financiamentos --- operações de crédito atreladas a uma finalidade específica (ex.: financiar a compra de um equipamento, capital de giro vinculado). \\[0.4em]
+\texttt{\seqsplit{credito\_outras\_operacoes}} & 171 &
+Demais operações de crédito que não se enquadram nas duas categorias acima (ex.: outras linhas específicas do balancete bancário). \\
+\bottomrule
+\end{longtable}
+
+\begin{quote}
+\small\textit{Para a análise do PI2, o mais relevante costuma ser \texttt{credito\_total} como indicador geral do volume de crédito bancário na praça de Santos --- as três colunas de detalhamento ajudam a entender a composição, mas não somam ao total.}
+\end{quote}
+
+% =========================================================
+\section*{Balanço bancário agregado}
+\textit{Fonte: BCB ESTBAN, município de Santos.}
+
+\vspace{0.5em}
+\begin{longtable}{L{2.6cm} L{1.4cm} L{9.8cm}}
+\toprule
+\textbf{Coluna} & \textbf{Verbete} & \textbf{O que significa em linguagem simples} \\
+\midrule
+\endhead
+\texttt{\seqsplit{ativo\_total}} & 399 &
+Tudo que os bancos com agência em Santos \textbf{possuem}, somado: dinheiro em caixa, aplicações, e principalmente os próprios empréstimos que fizeram (um empréstimo concedido é um ``direito a receber'' para o banco, então conta como um bem/ativo dele). \\[0.4em]
+\texttt{\seqsplit{passivo\_total}} & 899 &
+Tudo que esses bancos \textbf{devem}, somado --- majoritariamente os depósitos de clientes (conta corrente, poupança, aplicações): o dinheiro que você guarda no banco é, contabilmente, uma dívida do banco com você. \\
+\bottomrule
+\end{longtable}
+
+\begin{quote}
+\small\textbf{Nota da EDA:} \texttt{ativo\_total} e \texttt{passivo\_total} são praticamente idênticos em quase todo o painel (120 dos 132 meses, com pequenas divergências de arredondamento nos outros 12). Isso acontece porque é a identidade contábil básica do balanço patrimonial: tudo que o banco possui (ativo) foi financiado por alguma fonte (passivo) --- cada real emprestado veio de algum depósito ou captação. Na prática, as duas colunas carregam quase a mesma informação (o ``tamanho'' do sistema bancário em Santos), então é provável que só uma delas seja necessária na modelagem mais adiante.
+\end{quote}
+
+% =========================================================
+\section*{Comércio exterior}
+\textit{Fonte: Comex Stat/MDIC, Porto de Santos, via marítima.}
+
+\vspace{0.5em}
+\begin{longtable}{L{3.2cm} L{11cm}}
+\toprule
+\textbf{Coluna} & \textbf{O que significa em linguagem simples} \\
+\midrule
+\endhead
+\texttt{exportação\_\allowbreak fob} &
+Valor total (em dólares americanos, US\$) de tudo que saiu do Brasil pelo Porto de Santos naquele mês, na modalidade \textbf{FOB} (\textit{Free On Board}) --- ou seja, o valor da mercadoria até ela ser colocada a bordo do navio, sem contar frete e seguro do trajeto internacional. É o valor ``de venda'' da carga exportada. \\[0.4em]
+\texttt{importação\_\allowbreak fob} &
+Mesma lógica, mas para o que \textbf{entrou} no Brasil pelo Porto de Santos: valor em US\$ das mercadorias importadas, na modalidade FOB (valor da mercadoria no porto de origem, sem frete/seguro internacional). \\[0.4em]
+\texttt{exportação\_\allowbreak kg} &
+Peso total, em quilogramas líquidos, de toda a carga exportada pelo Porto de Santos naquele mês. Mede o \textbf{volume físico} movimentado, complementando o valor em dólares. \\[0.4em]
+\texttt{importação\_\allowbreak kg} &
+Peso total, em quilogramas líquidos, de toda a carga importada pelo Porto de Santos naquele mês. \\
+\bottomrule
+\end{longtable}
+
+\begin{quote}
+\small\textit{Por que ter valor (US\$) \textbf{e} peso (kg) juntos: eles respondem perguntas diferentes. Valor em US\$ mede o tamanho econômico do comércio; peso em kg mede o volume logístico/físico movimentado no porto --- os dois podem se mover de formas diferentes (ex.: exportar menos toneladas de um produto caro pode gerar mais dólares do que exportar muitas toneladas de um produto barato).}
+\end{quote}
+
+% =========================================================
+\section*{Fontes}
+\begin{itemize}[leftmargin=1.2em]
+    \item \textbf{Câmbio:} BCB SGS, série 3696 --- \url{https://api.bcb.gov.br/dados/serie/bcdata.sgs.3696/dados}
+    \item \textbf{Crédito e balanço bancário:} BCB ESTBAN, via Base dos Dados (\texttt{\seqsplit{basedosdados.br\_bcb\_estban.municipio}}), município de Santos (IBGE 3548500)
+    \item \textbf{Comércio exterior:} Comex Stat --- MDIC, módulo ``Geral'', filtro Via=Marítima + URF=0817800 (Porto de Santos)
+\end{itemize}
+
+\end{document}

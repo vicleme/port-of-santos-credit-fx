@@ -30,11 +30,13 @@ docs/           -> report drafts, group meeting notes
 | `cambio_sgs_3696_2015-2026.csv` | BCB — SGS, series 3696 (Exchange rate, Free market, US Dollar, sell, end of period, monthly) | 2015-01 to 2026-07 | `https://api.bcb.gov.br/dados/serie/bcdata.sgs.3696/dados` |
 | `estban_credito_santos_2015-2025.csv` | BCB — ESTBAN, via Base dos Dados (`basedosdados.br_bcb_estban.municipio`), municipality of Santos (IBGE 3548500) | 2015-01 to 2025-09 (free tier) | Long format, one record per (year, month, account code). Account codes used: 160/161/162/171 (credit) and 399/899 (total assets/liabilities). Account codes 153/457 (foreign exchange portfolio) were tested and dropped — returned null/zero values, likely due to statistical confidentiality suppression. |
 | `comexstat_porto_santos_2015-2026.csv` | Comex Stat — MDIC, "General" module, filtered by Transport mode=Maritime + Customs unit=0817800 (Port of Santos) | 2015-01 to 2026-07 | The "General" module was used instead of "Municipalities" to capture the physical flow through customs, rather than the exporter/importer's tax domicile. |
+| `estban_agencias_santos_2015-2025.csv` | BCB — ESTBAN, via Base dos Dados (`basedosdados.br_bcb_estban.municipio`), municipality of Santos (IBGE 3548500) | 2015-01 to 2025-12 | Number of bank branches reporting in Santos per month (sum of `agencias_processadas`, deduplicated per bank). Used in `notebooks/03_agencias_ativo_credito.ipynb` to test whether branch closures explain the `ativo_total`/`credito_total` pattern. |
+| `estban_agencias_santos_2025_por_banco.csv` | Same source, broken down by bank (`cnpj_basico`, `instituicao`) | 2025-02 to 2025-08 | Point diagnostic: the aggregated 2025 series shows instability with no economic explanation; this file isolates per-bank/month values and shows it's a data-quality issue (specific banks with reporting gaps), not real branch closures. See `notebooks/03_agencias_ativo_credito.ipynb`, section 3. |
 
 ## Processed data (`data/processed/`)
 
 - **`painel_2015_2025.csv`** — main monthly panel, closed to the project's formal scope (2015–2025). 132 months, 13 columns. Use this one for the PI2 analysis.
-- **`painel_completo.csv`** — same panel, unclipped, including the extra 2026 months already downloaded for exchange rate and Comex Stat (ESTBAN is empty for those months). Kept as extra data for a possible future extension (e.g., a follow-up project).
+- **`painel_2015_2026.csv`** — same panel, unclipped, including the extra 2026 months already downloaded for exchange rate and Comex Stat (ESTBAN is empty for those months). Kept as extra data for a possible future extension (e.g., a follow-up project).
 
 ## How to reproduce
 
@@ -43,7 +45,7 @@ cd src
 python merge_datasets.py
 ```
 
-Generates `painel_completo.csv` and `painel_2015_2025.csv` in `data/processed/` from the raw files in `data/raw/`.
+Generates `painel_2015_2026.csv` and `painel_2015_2025.csv` in `data/processed/` from the raw files in `data/raw/`.
 
 ## License
 

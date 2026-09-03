@@ -11,7 +11,7 @@ Arquivos de entrada esperados (em ../data/raw/):
   - comexstat_porto_santos_2015-2026.csv   -> Comex Stat (carga)
 
 Saída (em ../data/processed/):
-  - painel_completo.csv     -> tudo que os dados cobrirem (até jul/2026 no câmbio/Comex)
+  - painel_2015_2026.csv    -> tudo que os dados cobrirem (até jul/2026 no câmbio/Comex)
   - painel_2015_2025.csv    -> recorte fechado no escopo formal do PI2 (2015-2025)
 """
 
@@ -87,7 +87,7 @@ painel = cambio.merge(estban, on=["ano", "mes"], how="outer")
 painel = painel.merge(comex_wide, on=["ano", "mes"], how="outer")
 painel = painel.sort_values(["ano", "mes"]).reset_index(drop=True)
 
-painel.to_csv(PROCESSED + "painel_completo.csv", index=False)
+painel.to_csv(PROCESSED + "painel_2015_2026.csv", index=False)
 
 # recorte fechado no escopo formal do PI2 (2015-2025)
 painel_2015_2025 = painel[(painel["ano"] >= 2015) & (painel["ano"] <= 2025)]
