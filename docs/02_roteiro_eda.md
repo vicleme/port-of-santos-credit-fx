@@ -24,6 +24,26 @@ Este documento registra a sequência de passos planejada para a análise explora
 | `01_eda_painel_2015_2025.ipynb` | Passo 1 (univariada). |
 | `02_outlier_importacao_2021.ipynb` | Extensão pontual: detalha por NCM (Comex Stat) o outlier de `importação_kg` encontrado no passo 1 (set–out/2021). |
 | `03_agencias_ativo_credito.ipynb` | Extensão pontual: verifica formalmente — correlação de verdade, evolução ano a ano — se o fechamento de agências bancárias físicas em Santos (ESTBAN) explica o padrão de `ativo_total`/`credito_total` observado no passo 1. Testado por banco desde o início (não só como patch para um ano suspeito), o que permitiu checar mês ausente por instituição na série inteira 2015-2025: buraco de reporte só aparece em 2025 (Itaú, Santander, BB) — nenhum ano anterior, incluindo os de maior oscilação (2016, 2020, 2022, 2023), tem esse problema. Isso descarta, ao menos nesta fonte, a hipótese de que os saltos grandes da série sejam artefato de qualidade de dado disfarçado de volatilidade real, e fortalece a conclusão de "causa em aberto" em vez de deixar parecer efeito de dado sujo. Conclusão: não há uma quebra pontual em 2019-2020 (hipótese inicial) — a série é estruturalmente volátil o tempo todo, e o fechamento de agências (padrão suave e monotônico) explica só uma fração pequena da tendência de queda, não a volatilidade. Causa da volatilidade fica em aberto para os passos de Correlação (4) e Estacionariedade/Decomposição (5-6). A série de agências em 2025 tem limitação de qualidade de dado (meses ausentes por banco) ainda não tratada; a série é confiável de 2015 a 2024. |
-| `04_...` em diante | Retomam a sequência do roteiro em ordem: temporal → NaNs → correlação → estacionariedade → decomposição. |
+| `04_temporal_painel_2015_2025.ipynb` | Passo 2 (temporal). |
+| `05_tratamento_nans.ipynb` | Passo 3 (tratamento dos NaNs). |
+| `06_correlacao.ipynb` | Passo 4 (correlação, sobre os níveis das séries). |
+| `07_estacionariedade.ipynb` | Passo 5 (estacionariedade, teste ADF). |
+| `08_decomposicao.ipynb` | Passo 6 (decomposição em tendência, sazonalidade e resíduo). |
+| `09_correlacao_diferenciada.ipynb` | Extensão pontual do passo 4: refaz a correlação em primeira diferença, a partir do resultado do passo 5 (as séries com tendência precisam de Δ para evitar correlação espúria). |
 
-**Convenção de numeração:** os notebooks `02` e `03` nasceram de perguntas levantadas pela univariada (passo 1) e não seguem a ordem numérica do roteiro — são extensões pontuais do `01`. A partir do `04`, a numeração volta a acompanhar a sequência dos passos listados acima.
+**Convenção de numeração:** o número do notebook segue a **ordem de criação**, não o número do passo; a correspondência entre notebook e passo é a da tabela acima. Os notebooks `02`, `03` e `09` são extensões pontuais que nasceram de perguntas levantadas por um passo (`02` e `03` pela univariada, `09` pela estacionariedade) e por isso não correspondem a um passo próprio.
+
+---
+
+## Perguntas em aberto para a fase de contexto
+
+A EDA quantitativa mostra **o que** aconteceu nas séries, mas não **por quê**. As perguntas abaixo surgiram durante os notebooks e ficam registradas para a fase de pesquisa de contexto (notícias, relatórios, decisões de política monetária), que será planejada em roteiro próprio, com critérios metodológicos de seleção e cruzamento de fontes, depois de encerrada a EDA.
+
+| # | Pergunta | Origem | Observação |
+|---|---|---|---|
+| 1 | Por que o câmbio disparou em 2020? | `04_temporal_painel_2015_2025.ipynb` | A alta de 2020 (+35%) é um dos dois choques da série, junto com 2015/16. A estatística sozinha não responde ao "por quê": isso exige contexto externo. |
+| 2 | O degrau de `credito_total` em **agosto/2019** (de 30,3 para 6,5 bilhões, -79% em um único mês) é mudança real de crédito em Santos ou artefato de reporte/reclassificação no ESTBAN? | `07_estacionariedade.ipynb`, seção 5 | A descrição "queda em 2020" no `04` vem de comparação entre médias anuais. Na visão mensal, o degrau precede 2020. Para separar as hipóteses seria preciso baixar o ESTBAN por banco em 2019 (como foi feito para 2025 no `03`). |
+
+**Decisão metodológica que depende da pergunta 2:** como `credito_total` entra nos passos seguintes (em nível, em primeira diferença, ou em nível com variável indicadora para o período pós-degrau). O ADF sozinho não resolve, porque a série tem quebra dominante (ver `07`, seções 5 e 6).
+
+Novas perguntas levantadas pelos passos 6 em diante devem ser acrescentadas a esta tabela.

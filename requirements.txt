@@ -1,0 +1,8 @@
+# Dependencies for the notebooks in notebooks/ and the scripts in src/
+# Minimum versions are conservative floors; use `pip freeze` to pin exact versions if needed.
+pandas>=2.0
+numpy>=1.24
+matplotlib>=3.7
+scipy>=1.10          # notebooks/09_correlacao_diferenciada.ipynb
+statsmodels>=0.14    # notebooks/07_estacionariedade.ipynb, 08_decomposicao.ipynb
+ipykernel>=6.0       # run the notebooks (provides IPython.display)
