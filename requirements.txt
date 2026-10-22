@@ -3,6 +3,6 @@
 pandas>=2.0
 numpy>=1.24
 matplotlib>=3.7
-scipy>=1.10          # notebooks/09_correlacao_diferenciada.ipynb
-statsmodels>=0.14    # notebooks/07_estacionariedade.ipynb, 08_decomposicao.ipynb
+scipy>=1.10          # notebooks/09_correlacao_diferenciada.ipynb, 11_log_estacionariedade_correlacao.ipynb
+statsmodels>=0.14    # notebooks/07_estacionariedade.ipynb, 08_decomposicao.ipynb, 10 a 12 (Zivot-Andrews, Engle-Granger, Johansen, VAR)
 ipykernel>=6.0       # run the notebooks (provides IPython.display)

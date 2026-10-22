@@ -60,8 +60,23 @@ O ESTBAN é o balanço mensal que cada agência bancária no Brasil é obrigada 
 
 ---
 
+## Painel de modelagem — `painel_modelagem_2015_2025.csv`
+
+Arquivo derivado, gerado por `src/build_modeling_panel.py` (saída em `data/processed/`). Tem as mesmas colunas do painel principal (mesmas fontes e significados acima) mais uma coluna nova, `credito_ex_bradesco`, posicionada logo depois de `credito_total`. As colunas `credito_emprestimos_titulos`, `credito_financiamentos`, `credito_outras_operacoes`, `ativo_total` e `passivo_total` não entram neste arquivo.
+
+| Coluna | Fonte | O que significa em linguagem simples |
+|---|---|---|
+| `credito_ex_bradesco` | ESTBAN por banco (`data/raw/estban_verbetes_santos_2015-2025_por_banco.csv`), verbete 160 | O mesmo crédito total (verbete 160) das agências de Santos, **somando todos os bancos exceto o Bradesco** (CNPJ básico 60746948). Existe porque o degrau de agosto/2019 em `credito_total` vem quase todo de uma única instituição, o Bradesco; sem ele, a série deixa de ter esse salto. A decisão e a comparação com as alternativas estão no notebook `10_estban_por_banco_degrau_2019`. |
+
+**Cobertura:** a coluna só está preenchida de 2015-01 a 2024-12 (120 meses); os 12 meses de 2025 ficam vazios (NaN). Em 2025 há buracos de reporte de bancos específicos (Itaú, Santander e Banco do Brasil), e somar só os bancos que sobram criaria quedas artificiais no agregado.
+
+**Como interpretar:** em valores correntes, em reais, como `credito_total`. A participação dos demais bancos no total varia muito ao longo do tempo (de cerca de 19% a 99%), por isso `credito_ex_bradesco` não é uma fração constante de `credito_total`. Para a modelagem (notebooks 11 e 12), é a série de crédito usada no lugar de `credito_total`.
+
+---
+
 ## Fontes
 
 - Câmbio: BCB SGS, série 3696 — `https://api.bcb.gov.br/dados/serie/bcdata.sgs.3696/dados`
 - Crédito e balanço bancário: BCB ESTBAN, via Base dos Dados (`basedosdados.br_bcb_estban.municipio`), município de Santos (IBGE 3548500)
+- Crédito por banco (usado em `credito_ex_bradesco`): BCB ESTBAN por instituição e verbete, mesmo recorte de Santos, em `data/raw/estban_verbetes_santos_2015-2025_por_banco.csv`
 - Comércio exterior: Comex Stat — MDIC, módulo "Geral", filtro Via=Marítima + URF=0817800 (Porto de Santos)

@@ -160,10 +160,34 @@ Peso total, em quilogramas líquidos, de toda a carga importada pelo Porto de Sa
 \end{quote}
 
 % =========================================================
+\section*{Painel de modelagem}
+\textit{Arquivo \texttt{\seqsplit{painel\_modelagem\_2015\_2025.csv}}, gerado por \texttt{\seqsplit{src/build\_modeling\_panel.py}}.}
+
+\vspace{0.3em}
+\noindent Mesmas colunas do painel principal (mesmas fontes e significados acima), mais uma coluna nova, posicionada logo depois de \texttt{\seqsplit{credito\_total}}. As colunas \texttt{\seqsplit{credito\_emprestimos\_titulos}}, \texttt{\seqsplit{credito\_financiamentos}}, \texttt{\seqsplit{credito\_outras\_operacoes}}, \texttt{\seqsplit{ativo\_total}} e \texttt{\seqsplit{passivo\_total}} não entram neste arquivo.
+
+\vspace{0.5em}
+\begin{longtable}{L{3.2cm} L{11cm}}
+\toprule
+\textbf{Coluna} & \textbf{O que significa em linguagem simples} \\
+\midrule
+\endhead
+\texttt{\seqsplit{credito\_ex\_bradesco}} &
+O mesmo crédito total (verbete 160) das agências de Santos, \textbf{somando todos os bancos exceto o Bradesco} (CNPJ básico 60746948). Existe porque o degrau de agosto/2019 em \texttt{\seqsplit{credito\_total}} vem quase todo de uma única instituição, o Bradesco; sem ele, a série deixa de ter esse salto. A decisão e a comparação com as alternativas estão no notebook \texttt{\seqsplit{10\_estban\_por\_banco\_degrau\_2019}}. \\
+\bottomrule
+\end{longtable}
+
+\noindent\textbf{Cobertura:} só está preenchida de 2015-01 a 2024-12 (120 meses); os 12 meses de 2025 ficam vazios (NaN). Em 2025 há buracos de reporte de bancos específicos (Itaú, Santander e Banco do Brasil), e somar só os bancos que sobram criaria quedas artificiais no agregado.
+
+\vspace{0.4em}
+\noindent\textbf{Como interpretar:} em valores correntes, em reais, como \texttt{\seqsplit{credito\_total}}. A participação dos demais bancos no total varia muito ao longo do tempo (de cerca de 19\% a 99\%), então a coluna não é uma fração constante de \texttt{\seqsplit{credito\_total}}. Na modelagem (notebooks 11 e 12), é a série de crédito usada no lugar de \texttt{\seqsplit{credito\_total}}.
+
+% =========================================================
 \section*{Fontes}
 \begin{itemize}[leftmargin=1.2em]
     \item \textbf{Câmbio:} BCB SGS, série 3696 --- \url{https://api.bcb.gov.br/dados/serie/bcdata.sgs.3696/dados}
     \item \textbf{Crédito e balanço bancário:} BCB ESTBAN, via Base dos Dados (\texttt{\seqsplit{basedosdados.br\_bcb\_estban.municipio}}), município de Santos (IBGE 3548500)
+    \item \textbf{Crédito por banco (usado em \texttt{\seqsplit{credito\_ex\_bradesco}}):} BCB ESTBAN por instituição e verbete, mesmo recorte de Santos, em \texttt{\seqsplit{data/raw/estban\_verbetes\_santos\_2015-2025\_por\_banco.csv}}
     \item \textbf{Comércio exterior:} Comex Stat --- MDIC, módulo ``Geral'', filtro Via=Marítima + URF=0817800 (Porto de Santos)
 \end{itemize}
 
